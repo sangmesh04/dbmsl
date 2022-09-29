@@ -1,0 +1,162 @@
+##Find student and company details using natural join
+
+
+mysql> select * from Student natural join PlacementDrive;
++----------+-------+------------+------+----------+-------------------+---------+-----------+
+| Drive_id | s_id  | sname      | cgpa | sbranch  | CompanyName       | Package | location  |
++----------+-------+------------+------+----------+-------------------+---------+-----------+
+|        2 | 31330 | Manav      | 8.32 | Computer | Deutsche Bank     |  19.630 | Pune      |
+|        2 | 31331 | Madhur     | 9.45 | Computer | Deutsche Bank     |  19.630 | Pune      |
+|        8 | 31373 | Siddarth   | 9.12 | Computer | Microsoft         |  44.700 | Pune      |
+|        6 | 31403 | Pratik     | 8.92 | Computer | PhonePe           |  10.000 | Hyderabad |
+|        4 | 32171 | Yash       | 7.85 | E&TC     | Siemens           |  11.000 | Pune      |
+|        9 | 32350 | Kaushal    | 8.12 | E&TC     | Bajaj Finaserv    |  12.000 | Pune      |
+|       10 | 32363 | Vedant     | 8.30 | E&TC     | D E Shaw & Co     |  22.100 | Hyderabad |
+|        7 | 33359 | Apoorva    | 9.65 | IT       | Adobe             |  40.920 | Noida     |
+|        9 | 33369 | Balaji     | 8.95 | IT       | Bajaj Finaserv    |  12.000 | Pune      |
+|        5 | 33439 | Prathamesh | 8.65 | IT       | Espressif systems |  11.000 | Mumbai    |
++----------+-------+------------+------+----------+-------------------+---------+-----------+
+10 rows in set (0.00 sec)
+
+
+
+##Find all student details with company name
+
+
+mysql> select s.*, c.CompanyName from Student s left join PlacementDrive c on s.Drive_id = c.Drive_id;
++-------+----------+------------+------+----------+-------------------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  | CompanyName       |
++-------+----------+------------+------+----------+-------------------+
+| 31330 |        2 | Manav      | 8.32 | Computer | Deutsche Bank     |
+| 31331 |        2 | Madhur     | 9.45 | Computer | Deutsche Bank     |
+| 31373 |        8 | Siddarth   | 9.12 | Computer | Microsoft         |
+| 31403 |        6 | Pratik     | 8.92 | Computer | PhonePe           |
+| 32171 |        4 | Yash       | 7.85 | E&TC     | Siemens           |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     | Bajaj Finaserv    |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     | D E Shaw & Co     |
+| 33359 |        7 | Apoorva    | 9.65 | IT       | Adobe             |
+| 33369 |        9 | Balaji     | 8.95 | IT       | Bajaj Finaserv    |
+| 33439 |        5 | Prathamesh | 8.65 | IT       | Espressif systems |
++-------+----------+------------+------+----------+-------------------+
+10 rows in set (0.00 sec)
+
+
+##find name and branch of student who got 11 LPA
+
+mysql> select s.sname, s.sbranch from Student s natural join PlacementDrive where Package=11;
++------------+---------+
+| sname      | sbranch |
++------------+---------+
+| Yash       | E&TC    |
+| Prathamesh | IT      |
++------------+---------+
+2 rows in set (0.00 sec)
+
+
+##find student and company name where tfee is greater than 2 
+
+
+mysql> select s.sname, t.TCompanyName from Student s natural join Training t where t.Tfee>2;
++------------+--------------+
+| sname      | TCompanyName |
++------------+--------------+
+| Siddarth   | Amazon       |
+| Pratik     | Facebook     |
+| Prathamesh | Facebook     |
++------------+--------------+
+3 rows in set (0.00 sec)
+
+
+##list the company whose training year is before 2021
+
+
+mysql> select * from Training where TYear<2021;
++------+--------------+-------+-------+
+| T_id | TCompanyName | Tfee  | TYear |
++------+--------------+-------+-------+
+|    2 | TCS          | 5.000 |  2020 |
+|    3 | Wipro        | 1.000 |  2018 |
+|    4 | Amazon       | 5.750 |  2019 |
+|    5 | Facebook     | 3.000 |  2020 |
++------+--------------+-------+-------+
+4 rows in set (0.00 sec)
+
+
+##find name of student who got placed in Microsoft in Pune
+
+mysql> select distinct(s.sname) from Student s inner join PlacementDrive p on (s.Drive_id = 8 and p.location = "Pune");
++----------+
+| sname    |
++----------+
+| Siddarth |
++----------+
+1 row in set (0.00 sec)
+
+
+##find the right join - student details with company name
+
+mysql> select s.*, c.CompanyName from Student s right join PlacementDrive c on s.Drive_id = c.Drive_id;
++-------+----------+------------+------+----------+------+-------------------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  | T_id | CompanyName       |
++-------+----------+------------+------+----------+------+-------------------+
+|  NULL |     NULL | NULL       | NULL | NULL     | NULL | PhonePe           |
+| 31330 |        2 | Manav      | 8.32 | Computer |    1 | Deutsche Bank     |
+| 31331 |        2 | Madhur     | 9.45 | Computer |    3 | Deutsche Bank     |
+|  NULL |     NULL | NULL       | NULL | NULL     | NULL | Ittiam            |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |   10 | Siemens           |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |    5 | Espressif systems |
+| 31403 |        6 | Pratik     | 8.92 | Computer |    5 | PhonePe           |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |   10 | Adobe             |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |    4 | Microsoft         |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |    6 | Bajaj Finaserv    |
+| 33369 |        9 | Balaji     | 8.95 | IT       |    9 | Bajaj Finaserv    |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |    9 | D E Shaw & Co     |
++-------+----------+------------+------+----------+------+-------------------+
+12 rows in set (0.00 sec)
+
+
+##find the right outer join - student details with company name
+
+mysql> select s.* , c.CompanyName from Student s right outer join PlacementDrive c on s.Drive_id = c.Drive_id;
++-------+----------+------------+------+----------+------+-------------------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  | T_id | CompanyName       |
++-------+----------+------------+------+----------+------+-------------------+
+|  NULL |     NULL | NULL       | NULL | NULL     | NULL | PhonePe           |
+| 31330 |        2 | Manav      | 8.32 | Computer |    1 | Deutsche Bank     |
+| 31331 |        2 | Madhur     | 9.45 | Computer |    3 | Deutsche Bank     |
+|  NULL |     NULL | NULL       | NULL | NULL     | NULL | Ittiam            |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |   10 | Siemens           |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |    5 | Espressif systems |
+| 31403 |        6 | Pratik     | 8.92 | Computer |    5 | PhonePe           |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |   10 | Adobe             |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |    4 | Microsoft         |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |    6 | Bajaj Finaserv    |
+| 33369 |        9 | Balaji     | 8.95 | IT       |    9 | Bajaj Finaserv    |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |    9 | D E Shaw & Co     |
++-------+----------+------------+------+----------+------+-------------------+
+12 rows in set (0.00 sec)
+
+##find the left outer join - student details with company name
+
+mysql> select s.* , c.CompanyName from Student s left outer join PlacementDrive c on s.Drive_id = c.Drive_id;
++-------+----------+------------+------+----------+------+-------------------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  | T_id | CompanyName       |
++-------+----------+------------+------+----------+------+-------------------+
+| 31330 |        2 | Manav      | 8.32 | Computer |    1 | Deutsche Bank     |
+| 31331 |        2 | Madhur     | 9.45 | Computer |    3 | Deutsche Bank     |
+| 31363 |     NULL | Aditya     | 9.45 | Computer | NULL | NULL              |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |    4 | Microsoft         |
+| 31403 |        6 | Pratik     | 8.92 | Computer |    5 | PhonePe           |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |   10 | Siemens           |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |    6 | Bajaj Finaserv    |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |    9 | D E Shaw & Co     |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |   10 | Adobe             |
+| 33369 |        9 | Balaji     | 8.95 | IT       |    9 | Bajaj Finaserv    |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |    5 | Espressif systems |
++-------+----------+------------+------+----------+------+-------------------+
+11 rows in set (0.00 sec)
+
+
+
+
+

@@ -1,0 +1,92 @@
+##creating table for old employ table
+
+mysql> create table O_employ(emp_id int(10) primary key, name varchar(20), address varchar(30));
+Query OK, 0 rows affected (0.03 sec)
+
+
+
+##inserting the values the old employ table
+
+mysql> insert into O_employ values(1, "Madhur", "Latur");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into O_employ values(2, "Maanav", "Kolhapur");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into O_employ values(3, "Ankush", "Mumbai");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into O_employ values(4, "Siddarth", "Nashik");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into O_employ values(5, "Aditya", "Akola");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into O_employ values(6, "Yash", "Pune");
+Query OK, 1 row affected (0.06 sec)
+
+
+
+##creating the new employ table
+
+mysql> create table N_employ(emp_id int(10), name varchar(20), address varchar(30));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select * from N_employ;
+Empty set (0.00 sec)
+
+mysql> insert into N_employ select * from O_employ;
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from N_employ;
++--------+----------+----------+
+| emp_id | name     | address  |
++--------+----------+----------+
+|      1 | Madhur   | Latur    |
+|      2 | Maanav   | Kolhapur |
+|      3 | Ankush   | Mumbai   |
+|      4 | Siddarth | Nashik   |
+|      5 | Aditya   | Akola    |
+|      6 | Yash     | Pune     |
++--------+----------+----------+
+6 rows in set (0.00 sec)
+
+
+
+
+##creating simple parameterized cursor
+
+mysql> create procedure clone1(IN empId int(10))
+    -> begin
+    -> DECLARE c1 CURSOR FOR SELECT emp_id FROM O_employ WHERE emp_id=empId;
+    -> OPEN c1;
+    -> FETCH c1 INTO empId;
+    -> if not exists(select * from N_employ where emp_id=empId)
+    -> then
+    -> insert into N_employ select * from O_employ where emp_id=empId;
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (34.82 sec)
+
+
+##calling the procedure where the cursor is defined
+
+mysql> call clone1(1)//
+Query OK, 1 row affected (0.01 sec)
+
+mysql> call clone1(3)//
+Query OK, 1 row affected (0.02 sec)
+
+
+mysql> select * from N_employ;//
++--------+--------+---------+
+| emp_id | name   | address |
++--------+--------+---------+
+|      1 | Madhur | Latur   |
+|      3 | Ankush | Mumbai  |
++--------+--------+---------+
+2 rows in set (0.00 sec)
+
+

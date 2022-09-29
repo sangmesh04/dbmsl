@@ -1,0 +1,250 @@
+
+mysql> select * from Student;
++-------+----------+------------+------+----------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  |
++-------+----------+------------+------+----------+
+| 31330 |        2 | Manav      | 8.32 | Computer |
+| 31331 |        2 | Madhur     | 9.45 | Computer |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |
+| 31403 |        6 | Pratik     | 8.92 | Computer |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |
+| 33369 |        9 | Balaji     | 8.95 | IT       |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |
++-------+----------+------------+------+----------+
+10 rows in set (0.00 sec)
+
+
+
+
+
+##Creating simple view
+
+mysql> create or replace view v1 as select * from Student where cgpa>9 with check option;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from v1;
++-------+----------+----------+------+----------+
+| s_id  | Drive_id | sname    | cgpa | sbranch  |
++-------+----------+----------+------+----------+
+| 31331 |        2 | Madhur   | 9.45 | Computer |
+| 31373 |        8 | Siddarth | 9.12 | Computer |
+| 33359 |        7 | Apoorva  | 9.65 | IT       |
++-------+----------+----------+------+----------+
+3 rows in set (0.00 sec)
+
+
+##insert into the view v1
+
+mysql> insert into v1 values(33245,9,"Tejas",7.112,"IT");
+ERROR 1369 (HY000): CHECK OPTION failed 't31332db.v1'
+mysql> select * from Student;
++-------+----------+------------+------+----------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  |
++-------+----------+------------+------+----------+
+| 31330 |        2 | Manav      | 8.32 | Computer |
+| 31331 |        2 | Madhur     | 9.45 | Computer |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |
+| 31403 |        6 | Pratik     | 8.92 | Computer |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |
+| 33369 |        9 | Balaji     | 8.95 | IT       |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |
++-------+----------+------------+------+----------+
+10 rows in set (0.00 sec)
+
+mysql> insert into v1 values(33245,9,"Tejas",9.11,"IT");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Student;
++-------+----------+------------+------+----------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  |
++-------+----------+------------+------+----------+
+| 31330 |        2 | Manav      | 8.32 | Computer |
+| 31331 |        2 | Madhur     | 9.45 | Computer |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |
+| 31403 |        6 | Pratik     | 8.92 | Computer |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |
+| 33245 |        9 | Tejas      | 9.11 | IT       |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |
+| 33369 |        9 | Balaji     | 8.95 | IT       |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |
++-------+----------+------------+------+----------+
+11 rows in set (0.00 sec)
+
+
+
+##update row from the view v1mysql> update v1 set Drive_id=1 where s_id=33245;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Student;
++-------+----------+------------+------+----------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  |
++-------+----------+------------+------+----------+
+| 31330 |        2 | Manav      | 8.32 | Computer |
+| 31331 |        2 | Madhur     | 9.45 | Computer |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |
+| 31403 |        6 | Pratik     | 8.92 | Computer |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |
+| 33245 |        1 | Tejas      | 9.11 | IT       |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |
+| 33369 |        9 | Balaji     | 8.95 | IT       |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |
++-------+----------+------------+------+----------+
+11 rows in set (0.01 sec)
+
+
+
+##delete from the view v1
+
+mysql> delete from v1 where s_id=33245;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from v1;
++-------+----------+----------+------+----------+
+| s_id  | Drive_id | sname    | cgpa | sbranch  |
++-------+----------+----------+------+----------+
+| 31331 |        2 | Madhur   | 9.45 | Computer |
+| 31373 |        8 | Siddarth | 9.12 | Computer |
+| 33359 |        7 | Apoorva  | 9.65 | IT       |
++-------+----------+----------+------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Student;
++-------+----------+------------+------+----------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  |
++-------+----------+------------+------+----------+
+| 31330 |        2 | Manav      | 8.32 | Computer |
+| 31331 |        2 | Madhur     | 9.45 | Computer |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |
+| 31403 |        6 | Pratik     | 8.92 | Computer |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |
+| 33369 |        9 | Balaji     | 8.95 | IT       |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |
++-------+----------+------------+------+----------+
+10 rows in set (0.00 sec)
+
+
+##creating complx view
+
+mysql> create or replace view v2 as select std.s_id, std.sname, std.sbranch, place.CompanyName from Student std inner join PlacementDrive place on std.Drive_id = place.Drive_id;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from v2;
++-------+------------+----------+-------------------+
+| s_id  | sname      | sbranch  | CompanyName       |
++-------+------------+----------+-------------------+
+| 31330 | Manav      | Computer | Deutsche Bank     |
+| 31331 | Madhur     | Computer | Deutsche Bank     |
+| 31373 | Siddarth   | Computer | Microsoft         |
+| 31403 | Pratik     | Computer | UBS               |
+| 32171 | Yash       | E&TC     | Siemens           |
+| 32350 | Kaushal    | E&TC     | Bajaj Finaserv    |
+| 32363 | Vedant     | E&TC     | D E Shaw & Co     |
+| 33359 | Apoorva    | IT       | Adobe             |
+| 33369 | Balaji     | IT       | Bajaj Finaserv    |
+| 33439 | Prathamesh | IT       | Espressif systems |
++-------+------------+----------+-------------------+
+10 rows in set (0.00 sec)
+
+
+##select with where clause
+
+mysql> select * from v2 where sbranch="Computer";
++-------+----------+----------+---------------+
+| s_id  | sname    | sbranch  | CompanyName   |
++-------+----------+----------+---------------+
+| 31330 | Manav    | Computer | Deutsche Bank |
+| 31331 | Madhur   | Computer | Deutsche Bank |
+| 31373 | Siddarth | Computer | Microsoft     |
+| 31403 | Pratik   | Computer | UBS           |
++-------+----------+----------+---------------+
+4 rows in set (0.00 sec)
+
+
+
+##insert into view
+
+mysql> insert into v2 (s_id,sname,sbranch,CompanyName) values(31125, "Vinayak", sbranch="IT", CompanyName="PhonePe");
+ERROR 1393 (HY000): Can not modify more than one base table through a join view 't31332db.v2'
+
+##delete from view
+
+mysql> delete from v2 where sname="Vedant";
+ERROR 1395 (HY000): Can not delete from join view 't31332db.v2'
+
+##update view
+
+mysql> update v2 set CompanyName="PhonePe" where s_id = 31403;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from v2;
++-------+------------+----------+-------------------+
+| s_id  | sname      | sbranch  | CompanyName       |
++-------+------------+----------+-------------------+
+| 31330 | Manav      | Computer | Deutsche Bank     |
+| 31331 | Madhur     | Computer | Deutsche Bank     |
+| 31373 | Siddarth   | Computer | Microsoft         |
+| 31403 | Pratik     | Computer | PhonePe           |
+| 32171 | Yash       | E&TC     | Siemens           |
+| 32350 | Kaushal    | E&TC     | Bajaj Finaserv    |
+| 32363 | Vedant     | E&TC     | D E Shaw & Co     |
+| 33359 | Apoorva    | IT       | Adobe             |
+| 33369 | Balaji     | IT       | Bajaj Finaserv    |
+| 33439 | Prathamesh | IT       | Espressif systems |
++-------+------------+----------+-------------------+
+10 rows in set (0.00 sec)
+
+
+##creating index on table
+
+mysql> create index s_id on Student(s_id);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+##show indexes from table
+mysql> show indexes from Student;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Student |          0 | PRIMARY  |            1 | s_id        | A         |          10 |     NULL | NULL   |      | BTREE      |         |               |
+| Student |          1 | Drive_id |            1 | Drive_id    | A         |          10 |     NULL | NULL   | YES  | BTREE      |         |               |
+| Student |          1 | s_id     |            1 | s_id        | A         |          10 |     NULL | NULL   |      | BTREE      |         |               |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+3 rows in set (0.01 sec)
+
+
+##explain select
+mysql> explain select * from Student where s_id = 33439;
++------+-------------+---------+-------+---------------+---------+---------+-------+------+-------+
+| id   | select_type | table   | type  | possible_keys | key     | key_len | ref   | rows | Extra |
++------+-------------+---------+-------+---------------+---------+---------+-------+------+-------+
+|    1 | SIMPLE      | Student | const | PRIMARY,s_id  | PRIMARY | 4       | const |    1 |       |
++------+-------------+---------+-------+---------------+---------+---------+-------+------+-------+
+1 row in set (0.00 sec)
+
+
+##select query 
+mysql> select * from Student where s_id = 33359;
++-------+----------+---------+------+---------+
+| s_id  | Drive_id | sname   | cgpa | sbranch |
++-------+----------+---------+------+---------+
+| 33359 |        7 | Apoorva | 9.65 | IT      |
++-------+----------+---------+------+---------+
+1 row in set (0.00 sec)
+
+
+

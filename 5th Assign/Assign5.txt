@@ -1,0 +1,189 @@
+##creating new table
+
+mysql> desc StudentMarks;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollNo | int(11)     | NO   | PRI | 0       |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| marks  | int(11)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+##creating new table for grades
+
+mysql> create table Grades(rollNo int, grade varchar(20), foreign key(rollNo) references StudentMarks(rollNo));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc Grades;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollNo | int(11)     | YES  | MUL | NULL    |       |
+| grade  | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+##creating procedure for calculating 
+
+mysql> delimiter //
+mysql> create procedure calGrade(IN roll int)
+       begin
+       declare mrk int;
+       select marks into mrk from StudentMarks where rollNo = roll;
+       if(mrk<=1500 and mrk>=990)
+       then
+       insert into Grades values(roll, 'Distinction');
+       elseif(mrk<=989 and mrk>=900)
+       then 
+       insert into Grades values(roll, 'First class');
+       elseif(mrk<=899 and mrk>=825)
+       then
+       insert into Grades values(roll, 'Higher second class');
+       else
+       insert into Grades values(roll, 'Fail');
+       end if;
+       end;
+       //
+Query OK, 0 rows affected (0.00 sec)
+
+
+##insert values to studentmarks table
+
+
+mysql> insert into StudentMarks values(31332, 'Sangmeshwar', 1350);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into StudentMarks values(31331, 'Madhur', 1250);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into StudentMarks values(31333, 'Prerana', 1482);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into StudentMarks values(31330, 'Maanav', 902);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into StudentMarks values(31323, 'Gautam', 850);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into StudentMarks values(31335, 'Avinash', 800);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from StudentMarks;
++--------+-------------+-------+
+| rollNo | name        | marks |
++--------+-------------+-------+
+|  31323 | Gautam      |   850 |
+|  31330 | Maanav      |   902 |
+|  31331 | Madhur      |  1250 |
+|  31332 | Sangmeshwar |  1350 |
+|  31333 | Prerana     |  1482 |
+|  31335 | Avinash     |   800 |
++--------+-------------+-------+
+6 rows in set (0.01 sec)
+
+
+
+##calling procedure
+
+mysql> call calGrade(31323);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> call calGrade(31330);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> call calGrade(31331);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> call calGrade(31332);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> call calGrade(31333);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> call calGrade(31335);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Grades;
++--------+---------------------+
+| rollNo | grade               |
++--------+---------------------+
+|  31323 | Higher second class |
+|  31330 | First class         |
+|  31331 | Distinction         |
+|  31332 | Distinction         |
+|  31333 | Distinction         |
+|  31335 | Fail                |
++--------+---------------------+
+6 rows in set (0.00 sec)
+
+
+##creating function
+
+mysql> delimiter //
+mysql> create function calGradeFun(roll int)
+    ->        returns varchar(25)
+    ->        begin
+    ->        declare mrk int;
+    ->        declare cls varchar(25);
+    ->        select marks into mrk from StudentMarks where rollNo = roll;
+    ->        if(mrk<=1500 and mrk>=990)
+    ->        then
+    ->        set cls = 'Distinction';
+    ->        insert into Grades values(roll, 'Distinction');
+    ->        elseif(mrk<=989 and mrk>=900)
+    ->        then 
+    ->        set cls = 'First class';
+    ->        insert into Grades values(roll, 'First class');
+    ->        elseif(mrk<=899 and mrk>=825)
+    ->        then
+    ->        set cls = 'Higher second class';
+    ->        insert into Grades values(roll, 'Higher second class');
+    ->        else
+    ->        set cls = 'Fail';
+    ->        insert into Grades values(roll, 'Fail');
+    ->        end if;
+    ->        return cls;
+    ->        end;
+    ->        //
+Query OK, 0 rows affected (0.00 sec)
+
+##calling function
+
+mysql> select calGradeFun(31332);
++--------------------+
+| calGradeFun(31332) |
++--------------------+
+| Distinction        |
++--------------------+
+1 row in set (0.02 sec)
+
+mysql> select calGradeFun(31333);
++--------------------+
+| calGradeFun(31333) |
++--------------------+
+| Distinction        |
++--------------------+
+1 row in set (0.01 sec)
+
+mysql> select calGradeFun(31323);
++---------------------+
+| calGradeFun(31323)  |
++---------------------+
+| Higher second class |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql> select calGradeFun(31335);
++--------------------+
+| calGradeFun(31335) |
++--------------------+
+| Fail               |
++--------------------+
+1 row in set (0.01 sec)
+
+
+
+

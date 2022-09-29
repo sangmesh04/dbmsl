@@ -1,0 +1,141 @@
+## creating table for library
+
+mysql> create table Library(bId int(5), bName varchar(30), bAuther varchar(30), bPrice int, bQuantity int);
+Query OK, 0 rows affected (0.05 sec)
+
+
+
+## inserting books in the table
+
+mysql> insert into Library values(1, "Atomic habits", "James Clear", 450, 12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Library values(2, "Wings of Fire", "Dr A P J Kalam", 250, 16);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Library values(3, "Rich dad Poor dad", "Robert Kiyosaki", 300, 11);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Library values(4, "Think like a Monk", "Jay Shetty", 500, 8);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Library values(5, "Mahabharat", "Maharshi Vyaas", 200, 20);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Library values(6, "Ramayana", "Maharshi Valmiki", 200, 32);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Library values(7, "The Secret", "Rhonda Byrne", 400, 15);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Library values(8, "The Fault in Our Stars", "John Green", 600, 10);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Library;
++------+------------------------+------------------+--------+-----------+
+| bId  | bName                  | bAuther          | bPrice | bQuantity |
++------+------------------------+------------------+--------+-----------+
+|    1 | Atomic habits          | James Clear      |    450 |        12 |
+|    2 | Wings of Fire          | Dr A P J Kalam   |    250 |        16 |
+|    3 | Rich dad Poor dad      | Robert Kiyosaki  |    300 |        11 |
+|    4 | Think like a Monk      | Jay Shetty       |    500 |         8 |
+|    5 | Mahabharat             | Maharshi Vyaas   |    200 |        20 |
+|    6 | Ramayana               | Maharshi Valmiki |    200 |        32 |
+|    7 | The Secret             | Rhonda Byrne     |    400 |        15 |
+|    8 | The Fault in Our Stars | John Green       |    600 |        10 |
++------+------------------------+------------------+--------+-----------+
+8 rows in set (0.00 sec)
+
+
+## create new table for library audit
+
+mysql> create table Library_Audit (bId int ,oldName varchar(30),newName varchar(30),oldPrice int,newPrice int ,bAuthor varchar(30) ,status varchar(30),DATE Timestamp,userName varchar(30));
+Query OK, 0 rows affected (0.04 sec)
+
+
+## create insert trigger
+
+mysql> create trigger insertValidate before insert on Library for each row
+    -> begin
+    -> if NEW.bQuantity<=0
+    -> then
+    -> SIGNAL SQLSTATE '45000'
+    -> SET MESSAGE_TEXT = 'Enter quantity of books greater than 0';
+    -> else 
+    -> insert into Library_Audit set bId = NEW.bId, oldName = NEW.bName, newName = NEW.bName, oldPrice = NEW.bPrice, bAuthor = NEW.bAuther, status = "NEW BOOK", DATE = CURRENT_TIMESTAMP(), userName = CURRENT_USER();
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.06 sec)
+
+
+
+mysql> insert into Library values(9, "DBMS", "Saurav Muke", 600, 12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Library_Audit;
++------+---------+---------+----------+----------+-------------+----------+---------------------+----------+
+| bId  | oldName | newName | oldPrice | newPrice | bAuthor     | status   | DATE                | userName |
++------+---------+---------+----------+----------+-------------+----------+---------------------+----------+
+|    9 | DBMS    | DBMS    |      600 |     NULL | Saurav Muke | NEW BOOK | 2022-09-16 10:17:31 | t31332@% |
++------+---------+---------+----------+----------+-------------+----------+---------------------+----------+
+1 row in set (0.00 sec)
+
+
+
+## create trigger for updates in the library table
+
+
+mysql> create trigger updateTrigger after update on Library for each row
+    -> begin
+    -> insert into Library_Audit set bId = OLD.bId, oldName = OLD.bName, newName = NEW.bName, oldPrice = OLD.bPrice, newPrice = NEW.bPrice, bAuthor = OLD.bAuther, DATE = CURRENT_TIMESTAMP(), status = "UPDATED", userName = CURRENT_USER();
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> update Library set bPrice = 750 where bId = 3;
+    -> //
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+mysql> select *  from Library_Audit //
++------+-------------------+-------------------+----------+----------+-----------------+----------+---------------------+----------+
+| bId  | oldName           | newName           | oldPrice | newPrice | bAuthor         | status   | DATE                | userName |
++------+-------------------+-------------------+----------+----------+-----------------+----------+---------------------+----------+
+|    9 | DBMS              | DBMS              |      600 |     NULL | Saurav Muke     | NEW BOOK | 2022-09-16 10:17:31 | t31332@% |
+|    7 | The Secret        | The Secret        |      400 |      400 | Rhonda Byrne    | DELETED  | 2022-09-16 10:24:54 | t31332@% |
+|    3 | Rich dad Poor dad | Rich dad Poor dad |      300 |      750 | Robert Kiyosaki | UPDATED  | 2022-09-16 10:28:40 | t31332@% |
++------+-------------------+-------------------+----------+----------+-----------------+----------+---------------------+----------+
+3 rows in set (0.00 sec)
+
+
+
+## create trigger for delete from Library table
+
+mysql> create trigger deleteBook after delete on Library for each row
+    -> begin
+    -> insert into Library_Audit set bId = OLD.bId, oldName = OLD.bName, newName = OLD.bName, oldPrice = OLD.bPrice, newPrice = OLD.bPrice, bAuthor = OLD.bAuther, status = "DELETED", DATE = CURRENT_TIMESTAMP(), userName = CURRENT_USER();
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.06 sec)
+
+
+mysql> delete from Library where bId = 7;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from Library_Audit;
++------+------------+------------+----------+----------+--------------+----------+---------------------+----------+
+| bId  | oldName    | newName    | oldPrice | newPrice | bAuthor      | status   | DATE                | userName |
++------+------------+------------+----------+----------+--------------+----------+---------------------+----------+
+|    9 | DBMS       | DBMS       |      600 |     NULL | Saurav Muke  | NEW BOOK | 2022-09-16 10:17:31 | t31332@% |
+|    7 | The Secret | The Secret |      400 |      400 | Rhonda Byrne | DELETED  | 2022-09-16 10:24:54 | t31332@% |
++------+------------+------------+----------+----------+--------------+----------+---------------------+----------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+

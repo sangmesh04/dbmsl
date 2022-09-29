@@ -1,0 +1,125 @@
+##Borrower tables - 
+
+mysql> desc Borrower;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Roll_No       | int(5)      | NO   | PRI | 0       |       |
+| Name          | varchar(30) | YES  |     | NULL    |       |
+| Date_of_Issue | date        | YES  |     | NULL    |       |
+| Book_name     | varchar(25) | YES  |     | NULL    |       |
+| status        | tinyint(1)  | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+##Fine table - 
+
+mysql> desc Fine;
++------------+---------+------+-----+---------+-------+
+| Field      | Type    | Null | Key | Default | Extra |
++------------+---------+------+-----+---------+-------+
+| Roll_No    | int(5)  | YES  | MUL | NULL    |       |
+| returnDate | date    | YES  |     | NULL    |       |
+| amount     | int(11) | YES  |     | NULL    |       |
++------------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+##Borrower details
+
+mysql> select * from Borrower;
++---------+-------------+---------------+---------------------------+--------+
+| Roll_No | Name        | Date_of_Issue | Book_name                 | status |
++---------+-------------+---------------+---------------------------+--------+
+|       1 | Sangmeshwar | 2022-07-28    | Eat that frog!            |      0 |
+|       2 | Madhur      | 2022-08-10    | Wings of Fire             |      1 |
+|       3 | Ankush      | 2022-08-15    | The Power of Subconsious  |      0 |
+|       4 | Om          | 2022-08-10    | Playing it my way         |      0 |
+|       5 | Prathamesh  | 2022-08-20    | Mahabharat                |      0 |
+|       6 | Aditya      | 2022-08-30    | Atomic Habits             |      0 |
+|       7 | Apoorva     | 2022-08-25    | The Jungle Book           |      0 |
++---------+-------------+---------------+---------------------------+--------+
+7 rows in set (0.00 sec)
+
+##procedure
+
+mysql> delimiter #
+mysql> create procedure calculateFine(in roll int)
+    -> begin
+    -> declare noOfDays int;
+    -> declare issueDate date;
+    -> select Date_of_Issue into issueDate from Borrower where Roll_No=roll;
+    -> select datediff(curdate(),issueDate) into noOfDays;
+    -> if(noOfDays>15 and noOfDays<30) then
+    -> insert into Fine values(roll, curdate(),noOfDays*5);
+    -> update Borrower set status = 1 where Roll_No=roll;
+    -> elseif(noOfDays>30) then
+    -> insert into Fine values(roll, curdate(), (noOfDays-30)*50+150);
+    -> update Borrower set status = 1 where Roll_No=roll;
+    -> else 
+    -> insert into Fine values(roll, curdate(), 0);
+    -> update Borrower set status = 1 where Roll_No=roll;
+    -> end if;
+    -> end;
+    -> #
+Query OK, 0 rows affected (0.00 sec)
+
+
+##calling procedure
+
+mysql> call calculateFine(2)#
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from Borrower#
++---------+-------------+---------------+---------------------------+--------+
+| Roll_No | Name        | Date_of_Issue | Book_name                 | status |
++---------+-------------+---------------+---------------------------+--------+
+|       1 | Sangmeshwar | 2022-07-28    | Eat that frog!            |      0 |
+|       2 | Madhur      | 2022-08-10    | Wings of Fire             |      1 |
+|       3 | Ankush      | 2022-08-15    | The Power of Subconsious  |      0 |
+|       4 | Om          | 2022-08-10    | Playing it my way         |      0 |
+|       5 | Prathamesh  | 2022-08-20    | Mahabharat                |      0 |
+|       6 | Aditya      | 2022-08-30    | Atomic Habits             |      0 |
+|       7 | Apoorva     | 2022-08-25    | The Jungle Book           |      0 |
++---------+-------------+---------------+---------------------------+--------+
+7 rows in set (0.00 sec)
+
+mysql> delimiter ;
+mysql> select * from Fine;
++---------+------------+--------+
+| Roll_No | returnDate | amount |
++---------+------------+--------+
+|       2 | 2022-09-02 |    115 |
++---------+------------+--------+
+1 row in set (0.00 sec)
+
+mysql> call calculateFine(4);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from Fine;
++---------+------------+--------+
+| Roll_No | returnDate | amount |
++---------+------------+--------+
+|       2 | 2022-09-02 |    115 |
+|       4 | 2022-09-02 |    115 |
++---------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> call calculateFine(1);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from Fine;
++---------+------------+--------+
+| Roll_No | returnDate | amount |
++---------+------------+--------+
+|       2 | 2022-09-02 |    115 |
+|       4 | 2022-09-02 |    115 |
+|       1 | 2022-09-02 |    450 |
++---------+------------+--------+
+3 rows in set (0.00 sec)
+
+
+
+
+

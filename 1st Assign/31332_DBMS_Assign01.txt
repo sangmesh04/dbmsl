@@ -1,0 +1,339 @@
+## Students Table:
+
+
++-------+----------+------------+------+----------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  |
++-------+----------+------------+------+----------+
+| 31330 |        2 | Manav      | 8.32 | Computer |
+| 31331 |        2 | Madhur     | 9.45 | Computer |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |
+| 31403 |        6 | Pratik     | 8.92 | Computer |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |
+| 33369 |        9 | Balaji     | 8.95 | IT       |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |
++-------+----------+------------+------+----------+
+10 rows in set (0.00 sec)
+
+
+## Placement Drive:
+
++----+----------+-------------------+---------+-----------+
+| Drive_id | CompanyName       | Package | location  |
++----------+-------------------+---------+-----------+
+|        1 | PhonePe           |  33.630 | Banglore  |
+|        2 | Deutsche Bank     |  19.630 | Pune      |
+|        3 | Ittiam            |  16.000 | Pune      |
+|        4 | Siemens           |  11.000 | Pune      |
+|        5 | Espressif systems |  11.000 | Mumbai    |
+|        6 | UBS               |  10.000 | Hyderabad |
+|        7 | Adobe             |  40.920 | Noida     |
+|        8 | Microsoft         |  44.700 | Pune      |
+|        9 | Bajaj Finaserv    |  12.000 | Pune      |
+|       10 | D E Shaw & Co     |  22.100 | Hyderabad |
++----------+-------------------+---------+-----------+
+10 rows in set (0.00 sec)
+
+
+## Training:
+
++------+------+--------------+-------+-------+
+| T_id | TCompanyName | Tfee  | TYear |
++------+--------------+-------+-------+
+|    1 | Tesla        | 2.000 |  2022 |
+|    2 | TCS          | 5.000 |  2020 |
+|    3 | Wipro        | 1.000 |  2018 |
+|    4 | Amazon       | 5.750 |  2019 |
+|    5 | Facebook     | 3.000 |  2020 |
+|    6 | Google       | 2.000 |  2022 |
+|    7 | Microsoft    | 1.000 |  2021 |
+|    8 | Amdocs       | 5.000 |  2021 |
+|    9 | Xaiomi       | 2.000 |  2022 |
+|   10 | Bajaj        | 1.000 |  2022 |
++------+--------------+-------+-------+
+10 rows in set (0.00 sec)
+
+
+Q.2 Students with branch "computer" or "IT" and name starting with "a" or "d"
+
+> select * from Student where (sbranch = "Computer" or sbranch = "IT") and (sname like "a%" or sname like "d%");
+
+
++-------+----------+---------+------+---------+
+| s_id  | Drive_id | sname   | cgpa | sbranch |
++-------+----------+---------+------+---------+
+| 33359 |        7 | Apoorva | 9.65 | IT      |
++-------+----------+---------+------+---------+
+1 row in set (0.00 sec)
+
+
+Q.3 List number of distinct companies
+
+> select distinct(CompanyName) from PlacementDrive;
+
++-------------------+
+| CompanyName       |
++-------------------+
+| PhonePe           |
+| Deutsche Bank     |
+| Ittiam            |
+| Siemens           |
+| Espressif systems |
+| UBS               |
+| Adobe             |
+| Microsoft         |
+| Bajaj Finaserv    |
+| D E Shaw & Co     |
++-------------------+
+10 rows in set (0.00 sec)
+
+Q.4  Give 15% increment for training who have training in 2019
+
+> update Training set Tfee=Tfee+Tfee*15/100 where Tyear=2019;
+
++------+--------------+-------+-------+
+| T_id | TCompanyName | Tfee  | TYear |
++------+--------------+-------+-------+
+|    1 | Tesla        | 2.000 |  2022 |
+|    2 | TCS          | 5.000 |  2020 |
+|    3 | Wipro        | 1.000 |  2018 |
+|    4 | Amazon       | 5.750 |  2019 | <----
+|    5 | Facebook     | 3.000 |  2020 |
+|    6 | Google       | 2.000 |  2022 |
+|    7 | Microsoft    | 1.000 |  2021 |
+|    8 | Amdocs       | 5.000 |  2021 |
+|    9 | Xaiomi       | 2.000 |  2022 |
+|   10 | Bajaj        | 1.000 |  2022 |
++------+--------------+-------+-------+
+10 rows in set (0.00 sec)
+
+Q. 5 Name of company belogs to mumbai or pune
+
+> select CompanyName from PlacementDrive where location="Pune" or location="Mumbai";
+
++-------------------+
+| CompanyName       |
++-------------------+
+| Deutsche Bank     |
+| Ittiam            |
+| Siemens           |
+| Espressif systems |
+| Microsoft         |
+| Bajaj Finaserv    |
++-------------------+
+6 rows in set (0.00 sec)
+
+Q. 6 Find name of student who have max cgpa
+
+> select sname from Student order by cgpa desc limit 1;
+
++---------+
+| sname   |
++---------+
+| Apoorva |
++---------+
+1 row in set (0.00 sec)
+
+Q. 7 Name the students who have cgpa in between 7 and 9
+
+> select sname from Student where cgpa between 7 and 9;
+
++------------+
+| sname      |
++------------+
+| Manav      |
+| Pratik     |
+| Yash       |
+| Kaushal    |
+| Vedant     |
+| Balaji     |
+| Prathamesh |
++------------+
+7 rows in set (0.00 sec)
+
+
+Q. 8 Average package of students
+
+> selecselect avg(Package) from PlacementDrive;
+
++--------------+
+| avg(Package) |
++--------------+
+|   22.0980000 |
++--------------+
+1 row in set (0.01 sec)
+
+sssssssssssss
+
+Q. 9 Display training in  desc order of fee
+
+> select * from Training order by Tfee desc;
+
++------+--------------+-------+-------+
+| T_id | TCompanyName | Tfee  | TYear |
++------+--------------+-------+-------+
+|    4 | Amazon       | 5.750 |  2019 |
+|    2 | TCS          | 5.000 |  2020 |
+|    8 | Amdocs       | 5.000 |  2021 |
+|    5 | Facebook     | 3.000 |  2020 |
+|    1 | Tesla        | 2.000 |  2022 |
+|    9 | Xaiomi       | 2.000 |  2022 |
+|    6 | Google       | 2.000 |  2022 |
+|    7 | Microsoft    | 1.000 |  2021 |
+|    3 | Wipro        | 1.000 |  2018 |
+|   10 | Bajaj        | 1.000 |  2022 |
++------+--------------+-------+-------+
+10 rows in set (0.00 sec)
+
+Q. 10 Display company name, location, package with package 30, 40 and 11
+
+> select CompanyName, location, Package from PlacementDrive where Package in (30,40,11);
+
++-------------------+----------+---------+
+| CompanyName       | location | Package |
++-------------------+----------+---------+
+| Siemens           | Pune     |  11.000 |
+| Espressif systems | Mumbai   |  11.000 |
++-------------------+----------+---------+
+2 rows in set (0.00 sec)
+
+
+Q.11 Delete companies with package less than 50000
+
+
++----------+--------------+---------+----------+
+| Drive_id | company_name | package | location |
++----------+--------------+---------+----------+
+|        1 | Amazon       | 4000000 | Pune     |
+|        2 | Google       | 5000000 | Banglore |
+|        8 | Apple        | 6000000 | Delhi    |
++----------+--------------+---------+----------+
+
+
+Foreign key on delete cascade
+
+mysql>  select * from CLIENT_STATISTICS;
+Empty set (0.00 sec)
+
+mysql> use t31332db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables
+    -> ;
++--------------------+
+| Tables_in_t31332db |
++--------------------+
+| PlacementDrive     |
+| Student            |
+| Training           |
+| studentdb          |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from studentdb;
++-------+-------------+---------+-------+
+| roll  | fname       | lname   | city  |
++-------+-------------+---------+-------+
+| 31332 | Sangmeshwar | Mahajan | Latur |
+| 31331 | Madhur      | Mundada | Latur |
++-------+-------------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from PlacementDrive;
++----------+-------------------+---------+-----------+
+| Drive_id | CompanyName       | Package | location  |
++----------+-------------------+---------+-----------+
+|        1 | PhonePe           |  33.630 | Banglore  |
+|        2 | Deutsche Bank     |  19.630 | Pune      |
+|        3 | Ittiam            |  16.000 | Pune      |
+|        4 | Siemens           |  11.000 | Pune      |
+|        5 | Espressif systems |  11.000 | Mumbai    |
+|        6 | UBS               |  10.000 | Hyderabad |
+|        7 | Adobe             |  40.920 | Noida     |
+|        8 | Microsoft         |  44.700 | Pune      |
+|        9 | Bajaj Finaserv    |  12.000 | Pune      |
+|       10 | D E Shaw & Co     |  22.100 | Hyderabad |
++----------+-------------------+---------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from Student;
++-------+----------+------------+------+----------+
+| s_id  | Drive_id | sname      | cgpa | sbranch  |
++-------+----------+------------+------+----------+
+| 31330 |        2 | Manav      | 8.32 | Computer |
+| 31331 |        2 | Madhur     | 9.45 | Computer |
+| 31373 |        8 | Siddarth   | 9.12 | Computer |
+| 31403 |        6 | Pratik     | 8.92 | Computer |
+| 32171 |        4 | Yash       | 7.85 | E&TC     |
+| 32350 |        9 | Kaushal    | 8.12 | E&TC     |
+| 32363 |       10 | Vedant     | 8.30 | E&TC     |
+| 33359 |        7 | Apoorva    | 9.65 | IT       |
+| 33369 |        9 | Balaji     | 8.95 | IT       |
+| 33439 |        5 | Prathamesh | 8.65 | IT       |
++-------+----------+------------+------+----------+
+10 rows in set (0.01 sec)
+
+mysql> create table pd1(drid int primary, cname varchar(20), package int(20), location varchar(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' cname varchar(20), package int(20), location varchar(20))' at line 1
+mysql> create table pd1(drid int primary key, cname varchar(20), package int(20), location varchar(20));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into pd1 values(1, "PhonePe", 3300000, "Pune");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into pd1 values(2, "Amazon", 4400000, "Hyderabad");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table stud1(sid int primary key, drid int foreign key references pd1(drid) on delete cascade, sname vachar(20), cgpa float(5), sbranch varchar(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'foreign key references pd1(drid) on delete cascade, sname vachar(20), cgpa float' at line 1
+mysql> create table stud1(sid int primary key, drid int, sname vachar(20), cgpa float(5), sbranch varchar(20), foreign key(drid) references pd1(drid) on delete cascade;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'vachar(20), cgpa float(5), sbranch varchar(20), foreign key(drid) references pd1' at line 1
+mysql> create table stud1(sid int primary key, drid int, sname vachar(20), cgpa float(5), sbranch varchar(20), foreign key(drid) references pd1(drid) on delete cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'vachar(20), cgpa float(5), sbranch varchar(20), foreign key(drid) references pd1' at line 1
+mysql> create table stud1(sid int primary key, drid int, sname varchar(20), cgpa float(5), sbranch varchar(20), foreign key(drid) references pd1(drid) on delete cascade);
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> insert into stud1 values(31332,1,"Sangmeshwar", 9.45, "CE")
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into stud1 values(31331,2,"Madhur", 9.15, "CE");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from stud1;
++-------+------+-------------+------+---------+
+| sid   | drid | sname       | cgpa | sbranch |
++-------+------+-------------+------+---------+
+| 31331 |    2 | Madhur      | 9.15 | CE      |
+| 31332 |    1 | Sangmeshwar | 9.45 | CE      |
++-------+------+-------------+------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select * from pd1;
++------+---------+---------+-----------+
+| drid | cname   | package | location  |
++------+---------+---------+-----------+
+|    1 | PhonePe | 3300000 | Pune      |
+|    2 | Amazon  | 4400000 | Hyderabad |
++------+---------+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> delete from pd1 where cname="Amazon";
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from stud1;
++-------+------+-------------+------+---------+
+| sid   | drid | sname       | cgpa | sbranch |
++-------+------+-------------+------+---------+
+| 31332 |    1 | Sangmeshwar | 9.45 | CE      |
++-------+------+-------------+------+---------+
+1 row in set (0.00 sec)
+
+
+3 rows in set (0.00 sec)
+
+
