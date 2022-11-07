@@ -6,6 +6,8 @@
 // connector-v-5 to 8-mysql-connector-java-5.1.49-bin-jar
 //package jdbcnew;
 
+//mysql databse connectivity in Java
+
 import java.sql.*;//classes,interfaces and methods
 import java.util.Scanner;
 
