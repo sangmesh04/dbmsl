@@ -1,3 +1,5 @@
+//procedure and function for grade calculation
+
 ##creating new table
 
 mysql> desc StudentMarks;
