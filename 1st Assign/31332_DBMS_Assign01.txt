@@ -1,3 +1,5 @@
+//simple sql queries
+
 ## Students Table:
 
 
