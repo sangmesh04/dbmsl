@@ -1,0 +1,651 @@
+1.) Create Database for Assignment No. 10.
+> use assignment_no_10
+switched to db assignment_no_10
+2.) Create Student Collection. (Use of createCollection())
+> db.createCollection("Student")
+{ "ok" : 1 }
+3.) Insert 10 records in 'Student' Collection. (Use of insert())
+> db.Student.insert({_id:1, rollNo:101, regNo:100001, name:"Vidyut", dept:"Computer", 
+marks:[95, 90, 92, 91, 93]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:2, rollNo:102, regNo:100002, name:"Pratap", dept:"IT", 
+marks:[92, 91, 92, 91, 90]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:3, rollNo:103, regNo:100003, name:"Kailash", dept:"E&TC", 
+marks:[90, 98, 97, 96, 99]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:4, rollNo:104, regNo:100004, name:"Mukund", 
+dept:"Mechanical", marks:[95, 94, 93, 90, 90]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:5, rollNo:105, regNo:100005, name:"Girish", dept:"Civil", 
+marks:[92, 98, 94, 96, 93]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:6, rollNo:106, regNo:100006, name:"Neeraj", 
+dept:"Electrical", marks:[98, 96, 94, 93, 92]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:7, rollNo:107, regNo:100007, name:"Prashant", dept:"E&TC", 
+marks:[98, 99, 97, 93, 92]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:8, rollNo:108, regNo:100008, name:"Raj", dept:"Computer", 
+marks:[90, 90, 90, 96, 92]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:9, rollNo:109, regNo:100009, name:"Hari", dept:"IT", 
+marks:[91, 92, 93, 94, 95]})
+WriteResult({ "nInserted" : 1 })
+> db.Student.insert({_id:10, rollNo:110, regNo:100010,name:"Aditya", 
+dept:"Mechanical", marks:[99, 98, 97, 96, 95]})
+WriteResult({ "nInserted" : 1 })
+4.) Display All Records from 'Student' Collection. (Use of find())
+> db.Student.find()
+{ "_id" : 1, "rollNo" : 101, "regNo" : 100001, "name" : "Vidyut", "dept" : "Computer", 
+"marks" : [ 95, 90, 92, 91, 93 ] }
+{ "_id" : 2, "rollNo" : 102, "regNo" : 100002, "name" : "Pratap", "dept" : "IT", 
+"marks" : [ 92, 91, 92, 91, 90 ] }
+
+{ "_id" : 3, "rollNo" : 103, "regNo" : 100003, "name" : "Kailash", "dept" : "E&TC", 
+"marks" : [ 90, 98, 97, 96, 99 ] }
+{ "_id" : 4, "rollNo" : 104, "regNo" : 100004, "name" : "Mukund", "dept" : 
+"Mechanical", "marks" : [ 95, 94, 93, 90, 90 ] }
+{ "_id" : 5, "rollNo" : 105, "regNo" : 100005, "name" : "Girish", "dept" : "Civil", 
+"marks" : [ 92, 98, 94, 96, 93 ] }
+{ "_id" : 6, "rollNo" : 106, "regNo" : 100006, "name" : "Neeraj", "dept" : 
+"Electrical", "marks" : [ 98, 96, 94, 93, 92 ] }
+{ "_id" : 7, "rollNo" : 107, "regNo" : 100007, "name" : "Prashant", "dept" : "E&TC", 
+"marks" : [ 98, 99, 97, 93, 92 ] }
+{ "_id" : 8, "rollNo" : 108, "regNo" : 100008, "name" : "Raj", "dept" : "Computer", 
+"marks" : [ 90, 90, 90, 96, 92 ] }
+{ "_id" : 9, "rollNo" : 109, "regNo" : 100009, "name" : "Hari", "dept" : "IT", "marks" 
+: [ 91, 92, 93, 94, 95 ] }
+{ "_id" : 10, "rollNo" : 110, "regNo" : 100010, "name" : "Aditya", "dept" : 
+"Mechanical", "marks" : [ 99, 98, 97, 96, 95 ] }
+A.] Indexing :-
+======================================================================================
+====================================
+5.) Display 'executionStats' before creating Index on 'rollNo' field. (Use of 
+explain())
+{
+ "explainVersion" : "1",
+ "queryPlanner" : {
+ "namespace" : "assignment_no_10.Student",
+ "indexFilterSet" : false,
+ "parsedQuery" : {
+ "rollNo" : {
+ "$eq" : 9
+ }
+ },
+ "maxIndexedOrSolutionsReached" : false,
+ "maxIndexedAndSolutionsReached" : false,
+ "maxScansToExplodeReached" : false,
+ "winningPlan" : {
+ "stage" : "COLLSCAN",
+"filter" : {
+ "rollNo" : {
+ "$eq" : 9
+ }
+ },
+"direction" : "forward"
+ },
+ "rejectedPlans" : [ ]
+ },
+ "executionStats" : {
+ "executionSuccess" : true,
+ "nReturned" : 0,
+ "executionTimeMillis" : 1,
+ "totalKeysExamined" : 0,
+ "totalDocsExamined" : 10,
+ "executionStages" : {
+ "stage" : "COLLSCAN",
+"filter" : {
+
+ "rollNo" : {
+ "$eq" : 9
+ }
+ },
+ "nReturned" : 0,
+ "executionTimeMillisEstimate" : 0,
+"works" : 12,
+"advanced" : 0,
+"needTime" : 11,
+"needYield" : 0,
+ "saveState" : 0,
+ "restoreState" : 0,
+"isEOF" : 1,
+"direction" : "forward",
+"docsExamined" : 10
+ }
+ },
+ "command" : {
+ "find" : "Student",
+ "filter" : {
+ "rollNo" : 9
+ },
+ "$db" : "assignment_no_10"
+ },
+ "serverInfo" : {
+ "host" : "RUSHI-BHAGU",
+ "port" : 27017,
+ "version" : "5.0.3",
+ "gitVersion" : "657fea5a61a74d7a79df7aff8e4bcf0bc742b748"
+ },
+ "serverParameters" : {
+ "internalQueryFacetBufferSizeBytes" : 104857600,
+ "internalQueryFacetMaxOutputDocSizeBytes" : 104857600,
+ "internalLookupStageIntermediateDocumentMaxSizeBytes" : 104857600,
+ "internalDocumentSourceGroupMaxMemoryBytes" : 104857600,
+ "internalQueryMaxBlockingSortMemoryUsageBytes" : 104857600,
+ "internalQueryProhibitBlockingMergeOnMongoS" : 0,
+ "internalQueryMaxAddToSetBytes" : 104857600,
+ "internalDocumentSourceSetWindowFieldsMaxMemoryBytes" : 104857600
+ },
+ "ok" : 1
+}
+=== Single Field Index :- ===
+6.) Create Single Field Index on 'rollNo' field. (Use of createIndex())
+> db.Student.createIndex({rollNo:1})
+{
+ "numIndexesBefore" : 1,
+ "numIndexesAfter" : 2,
+ "createdCollectionAutomatically" : false,
+ "ok" : 1
+}
+
+7.) Display 'executionStats' after creating Index on 'rollNo' field. (Use of explain() 
+and find())
+> db.Student.explain("executionStats").find({rollNo:9})
+{
+ "explainVersion" : "1",
+ "queryPlanner" : {
+ "namespace" : "assignment_no_10.Student",
+ "indexFilterSet" : false,
+ "parsedQuery" : {
+ "rollNo" : {
+ "$eq" : 9
+ }
+ },
+ "maxIndexedOrSolutionsReached" : false,
+ "maxIndexedAndSolutionsReached" : false,
+ "maxScansToExplodeReached" : false,
+ "winningPlan" : {
+ "stage" : "FETCH",
+"inputStage" : {
+ "stage" : "IXSCAN",
+"keyPattern" : {
+ "rollNo" : 1
+ },
+"indexName" : "rollNo_1",
+"isMultiKey" : false,
+"multiKeyPaths" : {
+ "rollNo" : [ ]
+ },
+"isUnique" : false,
+"isSparse" : false,
+ "isPartial" : false,
+ "indexVersion" : 2,
+"direction" : "forward",
+"indexBounds" : {
+ "rollNo" : [
+ "[9.0, 9.0]"
+ ]
+ }
+ }
+ },
+ "rejectedPlans" : [ ]
+ },
+ "executionStats" : {
+ "executionSuccess" : true,
+ "nReturned" : 0,
+ "executionTimeMillis" : 0,
+ "totalKeysExamined" : 0,
+ "totalDocsExamined" : 0,
+ "executionStages" : {
+ "stage" : "FETCH",
+ "nReturned" : 0,
+"executionTimeMillisEstimate" : 0,
+"works" : 1,
+"advanced" : 0,
+"needTime" : 0,
+"needYield" : 0,
+
+ "saveState" : 0,
+"restoreState" : 0,
+"isEOF" : 1,
+"docsExamined" : 0,
+ "alreadyHasObj" : 0,
+ "inputStage" : {
+ "stage" : "IXSCAN",
+"nReturned" : 0,
+"executionTimeMillisEstimate" : 0,
+ "works" : 1,
+ "advanced" : 0,
+"needTime" : 0,
+"needYield" : 0,
+"saveState" : 0,
+ "restoreState" : 0,
+ "isEOF" : 1,
+"keyPattern" : {
+ "rollNo" : 1
+ },
+"indexName" : "rollNo_1",
+"isMultiKey" : false,
+"multiKeyPaths" : {
+ "rollNo" : [ ]
+ },
+"isUnique" : false,
+"isSparse" : false,
+"isPartial" : false,
+"indexVersion" : 2,
+"direction" : "forward",
+"indexBounds" : {
+ "rollNo" : [
+ "[9.0, 9.0]"
+ ]
+ },
+"keysExamined" : 0,
+"seeks" : 1,
+"dupsTested" : 0,
+"dupsDropped" : 0
+ }
+ }
+ },
+ "command" : {
+ "find" : "Student",
+ "filter" : {
+ "rollNo" : 9
+ },
+ "$db" : "assignment_no_10"
+ },
+ "serverInfo" : {
+ "host" : "RUSHI-BHAGU",
+ "port" : 27017,
+ "version" : "5.0.3",
+ "gitVersion" : "657fea5a61a74d7a79df7aff8e4bcf0bc742b748"
+ },
+ "serverParameters" : {
+ "internalQueryFacetBufferSizeBytes" : 104857600,
+ "internalQueryFacetMaxOutputDocSizeBytes" : 104857600,
+ "internalLookupStageIntermediateDocumentMaxSizeBytes" : 104857600,
+
+ "internalDocumentSourceGroupMaxMemoryBytes" : 104857600,
+ "internalQueryMaxBlockingSortMemoryUsageBytes" : 104857600,
+ "internalQueryProhibitBlockingMergeOnMongoS" : 0,
+ "internalQueryMaxAddToSetBytes" : 104857600,
+ "internalDocumentSourceSetWindowFieldsMaxMemoryBytes" : 104857600
+ },
+ "ok" : 1
+}
+=== Index Administration :-
+8.) Use getIndexes() on 'Student' Collection.
+> db.Student.getIndexes()
+[
+ {
+ "v" : 2,
+ "key" : {
+ "_id" : 1
+ },
+ "name" : "_id_"
+ },
+ {
+ "v" : 2,
+ "key" : {
+ "rollNo" : 1
+ },
+ "name" : "rollNo_1"
+ }
+]
+=== Compound Index :- ===
+9.) Create compound index on fields rollNo and name. (Use of createIndex())
+> db.Student.createIndex({"rollNo":1, "name":1})
+{
+ "numIndexesBefore" : 2,
+ "numIndexesAfter" : 3,
+ "createdCollectionAutomatically" : false,
+ "ok" : 1
+}
+=== Index Administration :-
+10.) Use getIndexes() on 'Student' Collection.
+> db.Student.getIndexes()
+[
+ {
+ "v" : 2,
+ "key" : {
+
+ "_id" : 1
+ },
+ "name" : "_id_"
+ },
+ {
+ "v" : 2,
+ "key" : {
+ "rollNo" : 1
+ },
+ "name" : "rollNo_1"
+ },
+ {
+ "v" : 2,
+ "key" : {
+ "rollNo" : 1,
+"name" : 1
+ },
+ "name" : "rollNo_1_name_1"
+ }
+]
+11.) Display 'executionStats' before creating Index on 'regNo' field. (Use of 
+explain())
+> db.Student.explain("executionStats").find({regNo:100007})
+ "explainVersion" : "1",
+ "queryPlanner" : {
+ "namespace" : "assignment_no_10.Student",
+ "indexFilterSet" : false,
+ "parsedQuery" : {
+ "regNo" : {
+ "$eq" : 100007
+ }
+ },
+ "maxIndexedOrSolutionsReached" : false,
+ "maxIndexedAndSolutionsReached" : false,
+ "maxScansToExplodeReached" : false,
+ "winningPlan" : {
+ "stage" : "COLLSCAN",
+"filter" : {
+ "regNo" : {
+ "$eq" : 100007
+ }
+ },
+"direction" : "forward"
+ },
+ "rejectedPlans" : [ ]
+ },
+ "executionStats" : {
+ "executionSuccess" : true,
+ "nReturned" : 1,
+ "executionTimeMillis" : 0,
+ "totalKeysExamined" : 0,
+ "totalDocsExamined" : 10,
+ "executionStages" : {
+ "stage" : "COLLSCAN",
+
+ "filter" : {
+ "regNo" : {
+ "$eq" : 100007
+ }
+ },
+"nReturned" : 1,
+"executionTimeMillisEstimate" : 0,
+"works" : 12,
+"advanced" : 1,
+ "needTime" : 10,
+ "needYield" : 0,
+"saveState" : 0,
+"restoreState" : 0,
+"isEOF" : 1,
+"direction" : "forward",
+ "docsExamined" : 10
+ }
+ },
+ "command" : {
+ "find" : "Student",
+ "filter" : {
+ "regNo" : 100007
+ },
+ "$db" : "assignment_no_10"
+ },
+ "serverInfo" : {
+ "host" : "RUSHI-BHAGU",
+ "port" : 27017,
+ "version" : "5.0.3",
+ "gitVersion" : "657fea5a61a74d7a79df7aff8e4bcf0bc742b748"
+ },
+ "serverParameters" : {
+ "internalQueryFacetBufferSizeBytes" : 104857600,
+ "internalQueryFacetMaxOutputDocSizeBytes" : 104857600,
+ "internalLookupStageIntermediateDocumentMaxSizeBytes" : 104857600,
+ "internalDocumentSourceGroupMaxMemoryBytes" : 104857600,
+ "internalQueryMaxBlockingSortMemoryUsageBytes" : 104857600,
+ "internalQueryProhibitBlockingMergeOnMongoS" : 0,
+ "internalQueryMaxAddToSetBytes" : 104857600,
+ "internalDocumentSourceSetWindowFieldsMaxMemoryBytes" : 104857600
+ },
+ "ok" : 1
+}
+=== Unique Index :- ===
+12.) Create unique index on 'regNo' field. (Use of createIndex() and unique)
+> db.Student.createIndex({"regNo":1}, {unique:true})
+{
+ "numIndexesBefore" : 3,
+ "numIndexesAfter" : 4,
+ "createdCollectionAutomatically" : false,
+ "ok" : 1
+}
+
+13.) Display 'executionStats' after creating Index on 'regNo' field. (Use of 
+explain())
+> db.Student.explain("executionStats").find({regNo:100007})
+{
+ "explainVersion" : "1",
+ "queryPlanner" : {
+ "namespace" : "assignment_no_10.Student",
+ "indexFilterSet" : false,
+ "parsedQuery" : {
+ "regNo" : {
+ "$eq" : 100007
+ }
+ },
+ "maxIndexedOrSolutionsReached" : false,
+ "maxIndexedAndSolutionsReached" : false,
+ "maxScansToExplodeReached" : false,
+ "winningPlan" : {
+ "stage" : "FETCH",
+"inputStage" : {
+ "stage" : "IXSCAN",
+ "keyPattern" : {
+ "regNo" : 1
+ },
+"indexName" : "regNo_1",
+ "isMultiKey" : false,
+ "multiKeyPaths" : {
+ "regNo" : [ ]
+ },
+"isUnique" : true,
+"isSparse" : false,
+"isPartial" : false,
+"indexVersion" : 2,
+"direction" : "forward",
+"indexBounds" : {
+ "regNo" : [
+ "[100007.0, 100007.0]"
+ ]
+ }
+ }
+ },
+ "rejectedPlans" : [ ]
+ },
+ "executionStats" : {
+ "executionSuccess" : true,
+ "nReturned" : 1,
+ "executionTimeMillis" : 3,
+ "totalKeysExamined" : 1,
+ "totalDocsExamined" : 1,
+ "executionStages" : {
+ "stage" : "FETCH",
+"nReturned" : 1,
+"executionTimeMillisEstimate" : 0,
+ "works" : 2,
+ "advanced" : 1,
+"needTime" : 0,
+
+ "needYield" : 0,
+"saveState" : 0,
+"restoreState" : 0,
+"isEOF" : 1,
+"docsExamined" : 1,
+"alreadyHasObj" : 0,
+"inputStage" : {
+ "stage" : "IXSCAN",
+"nReturned" : 1,
+"executionTimeMillisEstimate" : 0,
+"works" : 2,
+"advanced" : 1,
+"needTime" : 0,
+"needYield" : 0,
+"saveState" : 0,
+"restoreState" : 0,
+"isEOF" : 1,
+"keyPattern" : {
+ "regNo" : 1
+ },
+"indexName" : "regNo_1",
+"isMultiKey" : false,
+"multiKeyPaths" : {
+ "regNo" : [ ]
+ },
+"isUnique" : true,
+"isSparse" : false,
+"isPartial" : false,
+ "indexVersion" : 2,
+ "direction" : "forward",
+"indexBounds" : {
+ "regNo" : [
+ "[100007.0, 100007.0]"
+ ]
+ },
+"keysExamined" : 1,
+"seeks" : 1,
+ "dupsTested" : 0,
+ "dupsDropped" : 0
+ }
+ }
+ },
+ "command" : {
+ "find" : "Student",
+ "filter" : {
+ "regNo" : 100007
+ },
+ "$db" : "assignment_no_10"
+ },
+ "serverInfo" : {
+ "host" : "RUSHI-BHAGU",
+ "port" : 27017,
+ "version" : "5.0.3",
+ "gitVersion" : "657fea5a61a74d7a79df7aff8e4bcf0bc742b748"
+ },
+ "serverParameters" : {
+ "internalQueryFacetBufferSizeBytes" : 104857600,
+ "internalQueryFacetMaxOutputDocSizeBytes" : 104857600,
+
+ "internalLookupStageIntermediateDocumentMaxSizeBytes" : 104857600,
+ "internalDocumentSourceGroupMaxMemoryBytes" : 104857600,
+ "internalQueryMaxBlockingSortMemoryUsageBytes" : 104857600,
+ "internalQueryProhibitBlockingMergeOnMongoS" : 0,
+ "internalQueryMaxAddToSetBytes" : 104857600,
+ "internalDocumentSourceSetWindowFieldsMaxMemoryBytes" : 104857600
+ },
+ "ok" : 1
+}
+=== Index Administration :-
+14.) Use getIndexes() on 'Student' Collection.
+> db.Student.getIndexes()
+[
+ {
+ "v" : 2,
+ "key" : {
+ "_id" : 1
+ },
+ "name" : "_id_"
+ },
+ {
+ "v" : 2,
+ "key" : {
+ "rollNo" : 1
+ },
+ "name" : "rollNo_1"
+ },
+ {
+ "v" : 2,
+ "key" : {
+ "rollNo" : 1,
+"name" : 1
+ },
+ "name" : "rollNo_1_name_1"
+ },
+ {
+ "v" : 2,
+ "key" : {
+ "regNo" : 1
+ },
+ "name" : "regNo_1",
+ "unique" : true
+ }
+]
+=== Aggregation Commands :- ===
+15.) Count the total number of documents. (Use of count())
+> db.Student.count()
+10
+
+16.) Find all distinct roll numbers in 'Student' Collection.(Use of distinct())
+> db.Student.distinct("rollNo")
+[ 101, 102, 103, 104, 105, 106, 107, 108, 109, 110 ]
+B.] Aggregation :-
+======================================================================================
+====================================
+17.) Display the total marks of all students.
+> db.Student.aggregate([{$unwind:"$marks"}, {$group:{"_id":"$rollNo", 
+"total_Score":{$sum:"$marks"}}}])
+{ "_id" : 106, "total_Score" : 473 }
+{ "_id" : 107, "total_Score" : 479 }
+{ "_id" : 101, "total_Score" : 461 }
+{ "_id" : 103, "total_Score" : 480 }
+{ "_id" : 108, "total_Score" : 458 }
+{ "_id" : 109, "total_Score" : 465 }
+{ "_id" : 102, "total_Score" : 456 }
+{ "_id" : 105, "total_Score" : 473 }
+{ "_id" : 110, "total_Score" : 485 }
+{ "_id" : 104, "total_Score" : 462 }
+18.) Display the total marks of all students in decreasing order.
+> db.Student.aggregate([{$unwind:"$marks"}, {$group:{"_id":"$rollNo", 
+"total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-1}}])
+{ "_id" : 110, "total_Score" : 485 }
+{ "_id" : 103, "total_Score" : 480 }
+{ "_id" : 107, "total_Score" : 479 }
+{ "_id" : 106, "total_Score" : 473 }
+{ "_id" : 105, "total_Score" : 473 }
+{ "_id" : 109, "total_Score" : 465 }
+{ "_id" : 104, "total_Score" : 462 }
+{ "_id" : 101, "total_Score" : 461 }
+{ "_id" : 108, "total_Score" : 458 }
+{ "_id" : 102, "total_Score" : 456 }
+19.) Display the total marks of 'Computer' department students in decreasing order.
+> db.Student.aggregate([{$unwind:"$marks"}, {$match:{dept:"Computer"}}, 
+{$group:{"_id":"$rollNo", "total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-
+1}}])
+{ "_id" : 101, "total_Score" : 461 }
+{ "_id" : 108, "total_Score" : 458 }
+20.) Find the highest scorer in all departments.
+
+> db.Student.aggregate([{$unwind:"$marks"}, {$group:{"_id":"$rollNo", 
+"total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-1}}, {$limit:1}])
+{ "_id" : 110, "total_Score" : 485 }
+21.) Find the highest scorer in 'Computer' department.
+> db.Student.aggregate([{$unwind:"$marks"}, {$match:{dept:"Computer"}}, 
+{$group:{"_id":"$rollNo", "total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-1}}, 
+{$limit:1}])
+{ "_id" : 101, "total_Score" : 461 }
+22.) Find the highest scorer in 'IT' department.
+> db.Student.aggregate([{$unwind:"$marks"}, {$match:{dept:"IT"}}, 
+{$group:{"_id":"$rollNo", "total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-1}}, 
+{$limit:1}])
+{ "_id" : 109, "total_Score" : 465 }
+23.) Find the highest scorer in 'IT' department.
+> db.Student.aggregate([{$unwind:"$marks"}, {$match:{dept:"E&TC"}}, 
+{$group:{"_id":"$rollNo", "total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-1}}, 
+{$limit:1}])
+{ "_id" : 103, "total_Score" : 480 }
+24.) Find the highest scorer in 'Civil' department.
+> db.Student.aggregate([{$unwind:"$marks"}, {$match:{dept:"Civil"}}, 
+{$group:{"_id":"$rollNo", "total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-1}}, 
+{$limit:1}])
+{ "_id" : 105, "total_Score" : 473 }
+25.) Find the highest scorer in 'Mechanical' department.
+> db.Student.aggregate([{$unwind:"$marks"}, {$match:{dept:"Mechanical"}}, 
+{$group:{"_id":"$rollNo", "total_Score":{$sum:"$marks"}}}, {$sort:{"total_Score":-1}}, 
+{$limit:1}])
+{ "_id" : 110, "total_Score" : 485}
