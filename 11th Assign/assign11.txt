@@ -1,0 +1,108 @@
+//map reduce assignment
+
+
+> show dbs
+admin 0.000GB
+assignment_no_10 0.000GB
+assignment_no_9 0.000GB
+config 0.000GB
+local 0.000GB
+
+
+> use assignment_no_11
+switched to db assignment_no_11
+
+
+> db.createCollection("Orders")
+{ "ok" : 1 }
+
+> db.Orders.insert({_id:1, custId:101, ordDate:new Date("2021-11-01"), price:25})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:2, custId:101, ordDate:new Date("2021-11-08"), price:70})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:3, custId:102, ordDate:new Date("2021-11-08"), price:50})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:4, custId:102, ordDate:new Date("2021-11-18"), price:25})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:5, custId:102, ordDate:new Date("2021-11-19"), price:50})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:6, custId:103, ordDate:new Date("2021-11-19"), price:35})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:7, custId:103, ordDate:new Date("2021-11-20"), price:25})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:8, custId:104, ordDate:new Date("2021-11-20"), price:75})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:9, custId:104, ordDate:new Date("2021-11-20"), price:55})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.insert({_id:10, custId:104, ordDate:new Date("2021-11-23"), price:25})
+WriteResult({ "nInserted" : 1 })
+
+> db.Orders.find()
+{ "_id" : 1, "custId" : 101, "ordDate" : ISODate("2021-11-01T00:00:00Z"), "price" : 25 }
+{ "_id" : 2, "custId" : 101, "ordDate" : ISODate("2021-11-08T00:00:00Z"), "price" : 70 }
+{ "_id" : 3, "custId" : 102, "ordDate" : ISODate("2021-11-08T00:00:00Z"), "price" : 50 }
+{ "_id" : 4, "custId" : 102, "ordDate" : ISODate("2021-11-18T00:00:00Z"), "price" : 25 }
+{ "_id" : 5, "custId" : 102, "ordDate" : ISODate("2021-11-19T00:00:00Z"), "price" : 50 }
+{ "_id" : 6, "custId" : 103, "ordDate" : ISODate("2021-11-19T00:00:00Z"), "price" : 35 }
+{ "_id" : 7, "custId" : 103, "ordDate" : ISODate("2021-11-20T00:00:00Z"), "price" : 25 }
+{ "_id" : 8, "custId" : 104, "ordDate" : ISODate("2021-11-20T00:00:00Z"), "price" : 75 }
+{ "_id" : 9, "custId" : 104, "ordDate" : ISODate("2021-11-20T00:00:00Z"), "price" : 55 }
+{ "_id" : 10, "custId" : 104, "ordDate" : ISODate("2021-11-23T00:00:00Z"), "price" : 25 }
+
+> var mapFun = function(){emit(this.custId, this.price);}
+
+> var reduceFun = function(keycustId, valuesPrices){return Array.sum(valuesPrices);}
+
+> db.Orders.mapReduce(mapFun, reduceFun, {out:"Result"})
+{ "result" : "Result", "ok" : 1 }
+
+> db.Result.find()
+{ "_id" : 102, "value" : 125 }
+{ "_id" : 104, "value" : 155 }
+Scanned by TapScanner
+{ "_id" : 103, "value" : 60 }
+{ "_id" : 101, "value" : 95 }
+
+> db.Orders.mapReduce(
+function(){
+emit(this.custId, this.price);
+},
+function(key, values){
+return Array.avg(values)
+},
+{query: {
+ordDate:{$gte:new Date("2021-11-19")
+}
+},
+out:"Result2"
+})
+{ "result" : "Result2", "ok" : 1 }
+
+> db.Result2.find()
+{ "_id" : 102, "value" : 50 }
+{ "_id" : 104, "value" : 51.666666666666664 }
+{ "_id" : 103, "value" : 30 }
+
+> db.Orders.mapReduce(function(){emit(this.custId, this.price);}, function(key, values){return 
+Array.avg(values)}, {query:{custId:{$gt:102}}, out:"Result2"})
+{ "result" : "Result2", "ok" : 1 }
+
+> db.Result2.find()
+{ "_id" : 104, "value" : 51.666666666666664 }
+{ "_id" : 103, "value" : 30 }
+
+> db.Orders.mapReduce(function(){emit(this.custId, this.price);}, function(key, values){return 
+Array.avg(values)}, {query:{custId:{$eq:102}}, out:"Result2"})
+{ "result" : "Result2", "ok" : 1 }
+
+> db.Result2.find()
+{ "_id" : 102, "value" : 41.666666666666664 }
