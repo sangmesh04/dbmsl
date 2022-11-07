@@ -1,3 +1,4 @@
+//assignment on view
 
 mysql> select * from Student;
 +-------+----------+------------+------+----------+
