@@ -1,3 +1,5 @@
+//cursor for data transfer btn tables
+
 ##creating table for old employ table
 
 mysql> create table O_employ(emp_id int(10) primary key, name varchar(20), address varchar(30));
