@@ -1,3 +1,5 @@
+//trigger for reinsert the updated or deleted entry in another table
+
 ## creating table for library
 
 mysql> create table Library(bId int(5), bName varchar(30), bAuther varchar(30), bPrice int, bQuantity int);
