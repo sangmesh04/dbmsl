@@ -1,3 +1,5 @@
+//creating procedure
+
 ##Borrower tables - 
 
 mysql> desc Borrower;
