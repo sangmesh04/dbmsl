@@ -1,4 +1,4 @@
-//map reduce assignment
+//map reduce in mongoDB
 
 
 > show dbs
