@@ -1,0 +1,526 @@
+A.] CREATE :-
+1.) Create Database assignment_no_9 and use assignment_no_9.
+ 
+> use assignment_no_9
+switched to db assignment_no_9 
+
+2.) Create Collection 'Employee'.
+> db.createCollection("Employee") 
+{ "ok" : 1 }
+
+
+B.] INSERT :-
+
+3.) Insert One document in Employee collection. (use insertOne())
+> db.Employee.insertOne({_id:1, name:{firstname:"Diane", lastname:"Murphy"}, 
+email:"dmurphy@gmail.com", officeCode:1, jobTitle:"President", address:[{state:"Maharashtra"}, 
+{city:"Pune"}]})
+{ "acknowledged" : true, "insertedId" : 1 }
+
+4.) Insert nine documents in Employee collection. (use insertMany())
+> db.Employee.insertMany([
+{_id:2, name:{firstname:"Mary", lastname:"Patterson"}, email:"mpatterson@gmail.com", 
+officeCode:1, reportsTo:1, jobTitle:"VP Sales", address:[{state:"Goa"}, {city:"Panaji"}]}, 
+{_id:3, name:{firstname:"Jeff", lastname:"Firrelli"}, email:"jfirrelli@gmail.com", 
+officeCode:1, reportsTo:1, jobTitle:"VP Marketing", address:[{state:"Maharashtra"}, 
+{city:"Ahmednagar"}]},
+{_id:4, name:{firstname:"William", lastname:"Patterson"}, email:"wpatterson@gmail.com", 
+officeCode:6, reportsTo:2, jobTitle:"Sales Manager", address:[{state:"Gujarat"}, 
+{city:"Ahmadabad"}]},
+{_id:5, name:{firstname:"Gerard", lastname:"Bondur"}, email:"gbondur@gmail.com", 
+officeCode:4, reportsTo:2, jobTitle:"Sale Manager", address:[{state:"Haryana"}, 
+{city:"Ambala"}]},
+{_id:6, name:{firstname:"Anthony", lastname:"Bow"}, email:"abow@gmail.com", officeCode:1, 
+reportsTo:2, jobTitle:"Sales Manager", address:[{state:"Kerala"}, {city:"Kochi"}]},
+{_id:7, name:{firstname:"Leslie", lastname:"Jennings"}, email:"ljennings@gmail.com", 
+officeCode:1, reportsTo:6, jobTitle:"Sales Rep", address:[{state:"Maharashtra"}, 
+{city:"Mumbai"}]},
+{_id:8, name:{firstname:"Leslie", lastname:"Thompson"}, email:"lthompson@gmail.com", 
+officeCode:1, reportsTo:6, jobTitle:"Sales Rep", address:[{state:"Punjab"}, 
+{city:"Amritsar"}]},
+{_id:9, name:{firstname:"Julie", lastname:"Firrelli"}, email:"jfirrelli@gmail.com", 
+officeCode:2, reportsTo:6, jobTitle:"Sales Rep", address:[{state:"Rajasthan"}, 
+{city:"Jaipur"}]},
+{_id:10, name:{firstname:"Steve", lastname:"Patterson"}, email:"spatterson@gmail.com", 
+officeCode:2, reportsTo:6, jobTitle:"Sales Rep", address:[{state:"Uttar Pradesh"}, 
+{city:"Agra"}]}
+]) 
+ 
+{ 
+"acknowledged" : true, 
+"insertedIds" : [ 
+2, 
+3, 
+4, 
+5, 
+6, 
+7, 
+8, 
+9, 
+10 
+] 
+} 
+
+C.) READ :-
+5.) Display all documents from 'Employee' collection. (use find())
+> db.Employee.find().pretty() 
+{
+"_id" : 1, 
+"name" : { 
+"firstname" : "Diane", 
+"lastname" : "Murphy"
+},
+"email" : "dmurphy@gmail.com", 
+"officeCode" : 1, 
+"jobTitle" : "President",
+"address" : [ 
+{ 
+"state" : "Maharashtra"
+}, 
+{ 
+"city" : "Pune"
+}
+] 
+} 
+{ 
+"_id" : 2,
+"name" : {
+"firstname" : "Mary",
+"lastname" : "Patterson"
+},
+"email" : "mpatterson@gmail.com",
+"officeCode" : 1,
+"reportsTo" : 1,
+"jobTitle" : "VP Sales",
+"address" : [ 
+{ 
+"state" : "Goa"
+},
+{ 
+"city" : "Panaj"
+}
+]
+} 
+{ 
+"_id" : 3,
+"name" : {
+"firstname" : "Jeff",
+"lastname" : "Firrelli"
+},
+"email" : "jfirrelli@gmail.com",
+"officeCode" : 1,
+"reportsTo" : 1,
+"jobTitle" : "VP Marketing",
+"address" : [ 
+{ 
+"state" : "Maharashtra"
+},{
+"city" : "Ahmednagar" 
+}
+]
+} 
+{ 
+"_id" : 4,
+"name" : { 
+"firstname" : "William",
+"lastname" : "Patterson"
+},
+"email" : "wpatterson@gmail.com",
+"officeCode" : 6,
+"reportsTo" : 2,
+"jobTitle" : "Sales Manager",
+"address" : [ {
+"state" : "Gujarat"
+},{
+"city" : "Ahmadabad"
+}
+]
+}
+{ 
+"_id" : 5,
+"name" : {
+"firstname" : "Gerard",
+"lastname" : "Bondur"
+}, 
+"email" : "gbondur@gmail.com", 
+"officeCode" : 4, 
+"reportsTo" : 2,
+"jobTitle" : "Sale Manager", 
+"address" : [ 
+{ 
+"state" : "Haryana"
+}, {
+"city" : "Ambala" 
+}
+]
+}
+{ 
+"_id" : 6, 
+"name" : { 
+"firstname" : "Anthony",
+"lastname" : "Bow" 
+}, 
+"email" : "abow@gmail.com", 
+"officeCode" : 1, 
+"reportsTo" : 2,
+"jobTitle" : "Sales Manager",
+"address" : [ 
+{ 
+"state" : "Kerala"
+},
+{ 
+"city" : "Kochi" 
+} 
+]
+} 
+{ 
+"_id" : 7, 
+"name" : { 
+"firstname" : "Leslie", 
+"lastname" : "Jennings" 
+},
+"email" : "ljennings@gmail.com", 
+"officeCode" : 1,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [ 
+{ 
+"state" : "Maharashtra" 
+},
+{ 
+"city" : "Mumbai"
+} 
+]
+}{
+"_id" : 8,
+"name" : { 
+"firstname" : "Leslie",
+"lastname" : "Thompson"
+},
+"email" : "lthompson@gmail.com",
+"officeCode" : 1,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [ {
+"state" : "Punjab"
+},{
+"city" : "Amritsar"
+}
+]
+}{
+"_id" : 9,
+"name" : {
+"firstname" : "Julie",
+"lastname" : "Firrelli"
+},
+"email" : "jfirrelli@gmail.com",
+"officeCode" : 2,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{ 
+"state" : "Rajasthan"
+},
+{
+"city" : "Jaipur"
+} 
+]
+} 
+{
+"_id" : 10,
+"name" : {
+"firstname" : "Steve",
+"lastname" : "Patterson"
+},
+"email" : "spatterson@gmail.com",
+"officeCode" : 2,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [ 
+{
+"state" : "Uttar Pradesh"
+},
+{ 
+"city" : "Agra" 
+} 
+]
+}
+
+
+D.] LOGICAL OPERATORS :-
+6.) Find the documents where, officeCode is 6 and employees reports to VP Sales. (use and)
+> db.Employee.find({$and:[{"officeCode" : 6}, {"reportsTo" : 2}]}).pretty()
+{
+"_id" : 4,
+"name" : { 
+"firstname" : "William",
+"lastname" : "Patterson"
+},
+"email" : "wpatterson@gmail.com",
+"officeCode" : 6,
+"reportsTo" : 2,
+"jobTitle" : "Sales Manager",
+"address" : [
+{ 
+"state" : "Gujarat" 
+}, 
+{ 
+"city" : "Ahmadabad"
+}
+]
+}
+7.) Find the documents with either firstname is 'Diane' or lastname is 'Jennings'. (use or)
+> db.Employee.find({$or:[{"name.firstname":"Diane"}, {"name.lastname":"Jennings"}]}).pretty() 
+{ 
+"_id" : 1, 
+"name" : {
+"firstname" : "Diane",
+"lastname" : "Murphy"
+},
+"email" : "dmurphy@gmail.com",
+"officeCode" : 1,
+"jobTitle" : "President",
+"address" : [
+{ 
+"state" : "Maharashtra"
+},
+{
+"city" : "Pune"
+}
+]
+}
+{ 
+"_id" : 7,
+"name" : {
+"firstname" : "Leslie",
+"lastname" : "Jennings"
+},
+"email" : "ljennings@gmail.com",
+"officeCode" : 1,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [ 
+{ 
+"state" : "Maharashtra"
+},
+{ 
+"city" : "Mumbai" 
+}
+] 
+} 
+
+
+E.] UPDATE :-
+8.) Find the document where firstname is 'Steve' and Update lastname to 'Thompson'. (use 
+findOneAndUpdate())
+> db.Employee.findOneAndUpdate({"name.firstname":"Steve"}, {$set:{"name.lastname":"Thompson"}})
+{
+"_id" : 10,
+"name" : {
+"firstname" : "Steve",
+"lastname" : "Patterson"
+},
+"email" : "spatterson@gmail.com",
+"officeCode" : 2,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{
+"state" : "Uttar Pradesh"
+},
+{
+"city" : "Agra"
+}
+]
+} 
+> db.Employee.find({"_id":10}).pretty()
+{
+"_id" : 10,
+"name" : {
+"firstname" : "Steve",
+"lastname" : "Thompson"
+},
+"email" : "spatterson@gmail.com",
+"officeCode" : 2,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{
+"state" : "Uttar Pradesh"
+},
+{
+"city" : "Agra"
+}
+]
+} 
+9.) Update the documents where officeCode is 2, change officeCode to 3. (use update() with 
+{multi:true} )
+> db.Employee.update({"officeCode":2}, {$set:{"officeCode":3}}, {multi:true})
+WriteResult({ "nMatched" : 2, "nUpserted" : 0, "nModified" : 2 }) 
+> db.Employee.find({"officeCode":3}).pretty()
+{
+"_id" : 9,
+"name" : {
+"firstname" : "Julie",
+"lastname" : "Firrelli"
+},
+"email" : "jfirrelli@gmail.com",
+"officeCode" : 3,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{
+"state" : "Rajasthan"
+},
+{
+"city" : "Jaipur"
+}
+]
+}
+{
+"_id" : 10,
+"name" : {
+"firstname" : "Steve",
+"lastname" : "Thompson"
+},
+"email" : "spatterson@gmail.com",
+"officeCode" : 3,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{
+"state" : "Uttar Pradesh"
+},
+{
+"city" : "Agra"
+}
+]
+}
+
+
+F.] save() Method :-
+10.) Insert a document using save() method. 
+> db.Employee.save({"_id":11, name:{firstname:"George", lastname:"Vanauf"}, 
+email:"gvanauf@gmail.com", officeCode:3, reportsTo:6, jobTitle:"Sales Rep", 
+address:[{state:"Assam"}, {city:"Dispur"}]})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 11 })
+> db.Employee.find({"_id":11}).pretty()
+{
+"_id" : 11,
+"name" : {
+"firstname" : "George",
+"lastname" : "Vanauf"
+},
+"email" : "gvanauf@gmail.com",
+"officeCode" : 3,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{
+"state" : "Assam"
+},
+{
+"city" : "Dispur"
+}
+]
+} 
+
+11.) Update a document using save() method.
+> db.Employee.save({"_id":11, name:{firstname:"Barry", lastname:"Jones"}, 
+email:"bjones@gmail.com", officeCode:3, reportsTo:6, jobTitle:"Sales Rep", 
+address:[{state:"Assam"}, {city:"Dispur"}]})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Employee.find({"_id":11}).pretty()
+{
+"_id" : 11,
+"name" : {
+"firstname" : "Barry",
+"lastname" : "Jones"
+},
+"email" : "bjones@gmail.com",
+"officeCode" : 3,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{
+"state" : "Assam"
+},
+{
+"city" : "Dispur"
+}
+]
+}
+
+12.) Use sort() and limit() to display the Data.
+> db.Employee.find({}).sort({"name.firstname":1}).limit(3).pretty()
+{
+"_id" : 6,
+"name" : {
+"firstname" : "Anthony",
+"lastname" : "Bow"
+},
+"email" : "abow@gmail.com",
+"officeCode" : 1,
+"reportsTo" : 2,
+"jobTitle" : "Sales Manager",
+"address" : [
+{
+"state" : "Kerala"
+},
+{
+"city" : "Kochi"
+}
+]
+}
+{
+"_id" : 11,
+"name" : {
+"firstname" : "Barry",
+"lastname" : "Jones"
+},
+"email" : "bjones@gmail.com",
+"officeCode" : 3,
+"reportsTo" : 6,
+"jobTitle" : "Sales Rep",
+"address" : [
+{
+"state" : "Assam"
+},
+{
+"city" : "Dispur"
+}
+]
+}
+{
+"_id" : 1,
+"name" : {
+"firstname" : "Diane",
+"lastname" : "Murphy"
+},
+"email" : "dmurphy@gmail.com",
+"officeCode" : 1,
+"jobTitle" : "President",
+"address" : [
+{
+"state" : "Maharashtra"
+},
+{
+"city" : "Pune"
+}
+]
+}
+
+13.) Demonstrate unwind.
+> db.Employee.aggregate([{$unwind:"$address"}]).pretty()
+
+
+G.] DELETE :-
+14.) Delete a document where id is 11. (use deleteOne())
+> db.Employee.deleteOne({"_id":11})
+{ "acknowledged" : true, "deletedCount" : 1 } 
+15.) Delete documents where Employee reports to President. (use deleteMany())
+> db.Employee.deleteMany({"reportsTo":1})
+{ "acknowledged" : true, "deletedCount" : 2 } 
+16.) Delete all documents. (use deleteMany())
+> db.Employee.deleteMany({})
+{ "acknowledged" : true, "deletedCount" : 8 }
