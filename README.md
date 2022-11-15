@@ -151,3 +151,41 @@ _________________________________________________________________
 > end; <br>
 > $ <br>
 
+
+
+<br><br><br>
+ASSIGNMENT ON MONGODB (JDBC)
+__________________________________________________________________
+
+1.	Connect to mongo – <br>
+MongoClient mongo = new MongoClient(“host”, 27017);
+
+2.	Connect to database – <br>
+MongoDatabase db = mongo.getDatabase(“t31332db”);
+
+3.	Get collection – <br>
+MongoCollection<Document> collection = db.getCollection(“student”);
+
+4.	Create document – <br>
+Document document = new Document(“name”, “Sangmeshwar”).append(“roll”, 31332);
+
+5.	Insert document – <br>
+collection.insertOne(document);
+
+6.	Display documents – <br>
+FindIterable<Document> iterDoc = collection.find();<br>
+Iterator<Document> it = iterDoc.iterator();<br>
+while (it.hasNext()) {<br>
+	System.out.println(it.next());<br>
+}
+
+7.	Update document – <br>
+collection.updateOne(Filters.eq("roll", 31332)); <br>
+Updates.set("fName", fName));
+
+8.	Delete documet – <br>
+collection.deleteOne(Filters.eq(“roll”, 31332));
+
+9.	Delete collection – <br>
+collection.drop();
+
